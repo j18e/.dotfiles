@@ -223,6 +223,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 " { golang
   let g:go_doc_keywordprg_enabled = 0
+  let g:go_fmt_command = "goimports"
 " }
 
 " { vim-indent-guides

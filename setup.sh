@@ -19,7 +19,6 @@ homebrew_packages=(
     md5sha1sum
     reattach-to-user-namespace
     ripgrep
-    terraform
     tig
     tmux
     tree
@@ -38,6 +37,7 @@ cask_packages=(
 
 links=(
     .bin
+    .editorconfig
     .tmux.conf
     .vimrc
     .zsh_aliases

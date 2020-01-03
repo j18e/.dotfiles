@@ -5,17 +5,19 @@ root = true
 
 [*]
 end_of_line = lf
-insert_final_newline = false
+insert_final_newline = true
 charset = utf-8
-indent_style = space
-indent_size = 4
 trim_trailing_whitespace = true
+
+[*.{sh}]
+indent_size = 4
 
 [*.{groovy}]
 indent_size = 4
 
 # js, yaml, json, hashicorp
 [*.{js,jsx,yml,yaml,tf,hcl,json}]
+indent_style = space
 indent_size = 2
 
 [Vagrantfile]
@@ -23,4 +25,5 @@ indent_size = 2
 
 # GO
 [*.go]
+indent_style = tab
 indent_size = 4
