@@ -49,7 +49,10 @@ DISABLE_AUTO_UPDATE="true"
 
 # Standard plugins  in ~/.oh-my-zsh/plugins/*
 # Custom plugins added to ~/.oh-my-zsh/custom/plugins/
-plugins=()
+plugins=(
+    golang
+    per-directory-history
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -58,6 +61,7 @@ source $HOME/.zsh_aliases
 
 export EDITOR=vim
 export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
 export PATH="$PATH:$HOME/.bin"
 
@@ -68,6 +72,9 @@ export PATH="$PATH:$GOPATH/bin"
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# kubectl
+source <(kubectl completion zsh)
+
 # prompt
 which shell-prompt >> /dev/null || go install github.com/j18e/shell-prompt
-PROMPT='$(eval $(shell-prompt -exit-code $?))'
+PROMPT='$(shell-prompt -exit-code $? -zsh)'

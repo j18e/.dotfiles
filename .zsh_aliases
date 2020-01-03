@@ -1,12 +1,19 @@
 alias cdr='cd $HOME/repos/src'
 
+# git
 alias g='git'
-alias ga='git add'
 alias ga.='git add .'
+alias ga='git add'
 alias gc='git commit'
+alias gch='git checkout'
+alias gcl='git clone'
 alias gcm='git commit -m'
 alias gd='git --no-pager diff'
+alias git fetch='git fetch'
 alias gp='git push'
+alias gpl='git pull'
 alias gs='git status'
 
 alias tm='tmux'
+
+alias k='kubectl'
