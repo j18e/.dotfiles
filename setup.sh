@@ -7,6 +7,12 @@ if [[ "$PWD" != "$HOME/.dotfiles" ]]; then
     exit 1
 fi
 
+config_repos=(
+    "https://github.com/chriskempson/base16-shell.git"
+    "https://github.com/martinlindhe/base16-iterm2.git"
+    "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+)
+
 homebrew_packages=(
     bash
     fzf
@@ -57,6 +63,13 @@ brew install ${homebrew_packages[@]}
 # install oh my zsh
 ohmyzshurl="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
 [[ -d "$HOME/.oh-my-zsh" ]] || sh -c "$(curl -fsSL $ohmyzshurl)"
+
+mkdir -p $HOME/.config
+pushd $HOME/.config
+for url in ${config_repos[@]}; do
+    git clone $url || true
+done
+popd
 
 # link files to home directory
 pushd $HOME

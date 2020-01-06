@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/jamie.wiebe/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # we're not using this oh-my-zsh feature - PROMPT is set manually in this file
 ZSH_THEME=""
