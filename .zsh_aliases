@@ -1,4 +1,12 @@
 alias cdr='cd $HOME/repos/src'
+alias rmrf='rm -rf'
+alias v='vim'
+
+alias -g G='| rg'
+alias -g L='| less'
+alias -g H='| head'
+alias -g T='| tail'
+alias -g L='| less'
 
 # git
 alias g='git'
@@ -14,6 +22,11 @@ alias gp='git push'
 alias gpl='git pull'
 alias gs='git status'
 
+# tmux
 alias tm='tmux'
 
+# kubernetes
 alias k='kubectl'
+alias ktx='kubectl --context'
+alias -g J='-o json'
+alias -g Y='-o yaml'

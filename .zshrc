@@ -51,7 +51,6 @@ DISABLE_AUTO_UPDATE="true"
 # Custom plugins added to ~/.oh-my-zsh/custom/plugins/
 plugins=(
     golang
-    per-directory-history
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -78,3 +77,6 @@ source <(kubectl completion zsh)
 # prompt
 which shell-prompt >> /dev/null || go install github.com/j18e/shell-prompt
 PROMPT='$(shell-prompt -exit-code $? -zsh)'
+
+# cli syntax highlighting - must be at end of file
+source $HOME/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
