@@ -1,6 +1,7 @@
 #!/bin/bash -eu
 
 pushd $(dirname $0)
+DOTFILES="$PWD"
 
 if [[ "$PWD" != "$HOME/.dotfiles" ]]; then
     echo "ERROR - must be run from $HOME/.dotfiles"
@@ -19,7 +20,6 @@ homebrew_packages=(
     git
     htop
     jq
-    kubernetes-cli
     kubernetes-helm
     macvim
     md5sha1sum
@@ -69,6 +69,12 @@ pushd $HOME/.config
 for url in ${config_repos[@]}; do
     git clone $url || true
 done
+if [[ -d karabiner ]]; then
+    echo "updating karabiner.json with the copy from dotfiles"
+    cp $DOTFILES/karabiner.json karabiner/
+else
+    echo "karabiner not found under $PWD. Strange..."
+fi
 popd
 
 # link files to home directory
