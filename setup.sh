@@ -16,13 +16,13 @@ config_repos=(
 
 homebrew_packages=(
     bash
+    coreutils
     fzf
     git
     htop
     jq
     kubernetes-helm
     macvim
-    md5sha1sum
     reattach-to-user-namespace
     ripgrep
     tig
