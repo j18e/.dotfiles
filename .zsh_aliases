@@ -1,32 +1,54 @@
-alias cdr='cd $HOME/repos/src'
+alias ard='arduino-cli'
+alias cdr='cd $HOME/repos'
+alias p2='python2'
+alias p3='python3'
+alias p4='ping 4.2.2.2'
 alias rmrf='rm -rf'
 alias v='vim'
+
+function sudoinstall() {
+    binary="$1"
+    dest="/usr/local/bin"
+    sudo install -o root -g wheel -m 4755 $binary $dest
+}
+
+alias ff='find . -type file -name $1'
+alias fd='find . -type directory -name $1'
 
 alias -g G='| rg'
 alias -g L='| less'
 alias -g H='| head'
 alias -g T='| tail'
 alias -g L='| less'
+alias -g JQ='| jq'
 
 # git
 alias g='git'
 alias ga.='git add .'
 alias ga='git add'
+alias gb='git --no-pager branch'
 alias gc='git commit'
 alias gch='git checkout'
 alias gcl='git clone'
 alias gcm='git commit -m'
 alias gd='git --no-pager diff'
-alias git fetch='git fetch'
+alias gf='git fetch'
 alias gp='git push'
 alias gpl='git pull'
 alias gs='git status'
 
 # tmux
 alias tm='tmux'
+alias tma='tmux attach-session -t $1'
+alias tmls='tmux ls'
 
 # kubernetes
 alias k='kubectl'
-alias ktx='kubectl --context'
+alias kdev='kubectl --context dev'
+alias kstg='kubectl --context staging'
+alias kprd='kubectl --context prod'
+alias ktx='kubectl config get-contexts'
 alias -g J='-o json'
 alias -g Y='-o yaml'
+alias kgp='kubectl get pods'
+alias kg='kubectl get'
