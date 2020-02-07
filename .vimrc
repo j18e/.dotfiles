@@ -51,9 +51,9 @@ Plugin 'VundleVim/Vundle.vim'
   Plugin 'junegunn/fzf.vim'
 
 " Filetype specific plugins
+  Plugin 'sirtaj/vim-openscad'
   Plugin 'Valloric/python-indent'
   Plugin 'chase/vim-ansible-yaml'
-  Plugin 'chr4/nginx.vim'
   Plugin 'hashivim/vim-terraform.git'
   Plugin 'tpope/vim-markdown' " Tabular must come before this line
   Plugin 'fatih/vim-go'
@@ -130,7 +130,7 @@ Plugin 'VundleVim/Vundle.vim'
   nnoremap <leader>pwd :pwd<CR>
   nnoremap <leader>j :join<CR>
   vnoremap <leader>j :join<CR>
-  nnoremap <leader>rg :Rg<CR>
+  nnoremap <leader>g :Rg<CR>
   noremap <leader>ft :set filetype=
   noremap <leader>wr :set wrap!<CR>
   noremap <leader>ws :%s/\s\+$//g<CR>
@@ -152,6 +152,8 @@ Plugin 'VundleVim/Vundle.vim'
   nnoremap <leader>vc :Gcommit -m '
   nnoremap <leader>vp :Gpush<CR>
   nnoremap <leader>vl :Gpull<CR>
+  " golang
+  au BufNewFile,BufRead *.go nnoremap <leader>r :GoRun<CR>
 " }
 
 " Tab Characters {
@@ -174,6 +176,8 @@ Plugin 'VundleVim/Vundle.vim'
   let python_highlight_all=1
   let g:pyindent_continue = '&sw'
   au BufRead,BufNewFile Dockerfile* set filetype=dockerfile
+  au BufNewFile,BufRead *.go
+    \ nnoremap <leader>e oif err != nil {<CR>log.Fatal(err)<CR>}<ESC>
   au BufNewFile,BufRead *.tf,*.hcl
     \ set filetype=terraform |
     \ set tabstop=2 |
