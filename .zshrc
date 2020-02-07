@@ -12,7 +12,7 @@ ZSH_THEME=""
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
 
 DISABLE_AUTO_UPDATE="true"
 
@@ -62,11 +62,16 @@ export EDITOR=vim
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
+export PATH="/usr/local/sbin:$PATH" # homebrew's sbin
 export PATH="$PATH:$HOME/.bin"
 
 # golang
-export GOPATH=$HOME/repos
+export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
+
+# helm
+export HELM_HOME=$HOME/.helm
+source <(helm completion zsh)
 
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -80,3 +85,6 @@ PROMPT='$(shell-prompt -exit-code $? -zsh)'
 
 # cli syntax highlighting - must be at end of file
 source $HOME/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
