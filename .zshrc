@@ -79,6 +79,9 @@ source <(helm completion zsh)
 # kubectl
 source <(kubectl completion zsh)
 
+# non dotfiles variables
+[ -f ~/.env ] && source ~/.env
+
 # prompt
 which shell-prompt >> /dev/null || go install github.com/j18e/shell-prompt
 PROMPT='$(shell-prompt -exit-code $? -zsh)'
