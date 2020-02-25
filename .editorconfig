@@ -9,18 +9,13 @@ insert_final_newline = true
 charset = utf-8
 trim_trailing_whitespace = true
 
-[*.{sh}]
-indent_size = 4
-
-[*.{groovy}]
-indent_size = 4
-
-# js, yaml, json, hashicorp
-[*.{js,jsx,yml,yaml,tf,hcl,json}]
+# file extensions with 2 indent
+[*.{js,jsx,yml,yaml,tf,hcl,json,vim,html,css}]
 indent_style = space
 indent_size = 2
 
-[Vagrantfile]
+# file names with 2 indents
+[{Vagrantfile,.vimrc]
 indent_size = 2
 
 # GO
