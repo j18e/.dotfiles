@@ -12,8 +12,12 @@ function sudoinstall() {
     sudo install -o root -g wheel -m 4755 $binary $dest
 }
 
-alias ff='find . -type file -name $1'
-alias fd='find . -type directory -name $1'
+alias f='findfiles $1'
+alias ff='findfiles -files-only $1'
+alias fd='findfiles -dirs-only $1'
+
+# alias ff='find . -type file -name $1'
+# alias fd='find . -type directory -name $1'
 
 alias -g G='| rg'
 alias -g L='| less'
@@ -35,6 +39,7 @@ alias gd='git --no-pager diff'
 alias gf='git fetch'
 alias gp='git push'
 alias gpl='git pull'
+alias grb='git rebase'
 alias gs='git status'
 
 # tmux
