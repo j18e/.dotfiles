@@ -56,7 +56,10 @@ Plugin 'VundleVim/Vundle.vim'
   Plugin 'chase/vim-ansible-yaml'
   Plugin 'hashivim/vim-terraform.git'
   Plugin 'tpope/vim-markdown' " Tabular must come before this line
+  Plugin 'othree/html5.vim'
+  Plugin 'mattn/emmet-vim' " for html
   Plugin 'fatih/vim-go'
+  " Plugin 'govim/govim'
   Plugin 'fatih/vim-hclfmt'
   Plugin 'JamshedVesuna/vim-markdown-preview'
   Plugin 'elzr/vim-json'
@@ -90,6 +93,8 @@ Plugin 'VundleVim/Vundle.vim'
 " }
 
 " Basics {
+  set mouse=a
+  set ttymouse=sgr
   let loaded_netrwPlugin = 1
   let mapleader="\<space>"
   map <C-n> :Ranger<CR>
@@ -152,8 +157,6 @@ Plugin 'VundleVim/Vundle.vim'
   nnoremap <leader>vc :Gcommit -m '
   nnoremap <leader>vp :Gpush<CR>
   nnoremap <leader>vl :Gpull<CR>
-  " golang
-  au BufNewFile,BufRead *.go nnoremap <leader>r :GoRun<CR>
 " }
 
 " Tab Characters {
@@ -167,22 +170,9 @@ Plugin 'VundleVim/Vundle.vim'
 " }
 
 " filetypes {
-  au BufNewFile,BufRead *.js,*.html,*.css
-    \ set tabstop=2 |
-    \ set softtabstop=2 |
-    \ set shiftwidth=2
-  au BufNewFile,BufRead *.py
-    \ set fileformat=unix
-  let python_highlight_all=1
-  let g:pyindent_continue = '&sw'
   au BufRead,BufNewFile Dockerfile* set filetype=dockerfile
-  au BufNewFile,BufRead *.go
-    \ nnoremap <leader>e oif err != nil {<CR>log.Fatal(err)<CR>}<ESC>
   au BufNewFile,BufRead *.tf,*.hcl
-    \ set filetype=terraform |
-    \ set tabstop=2 |
-    \ set softtabstop=2 |
-    \ set shiftwidth=2
+    \ set filetype=terraform
 " }
 
 " Splits, buffers {
@@ -225,11 +215,6 @@ Plugin 'VundleVim/Vundle.vim'
 "     \ 'yaml'
 " }
 
-" { golang
-  let g:go_doc_keywordprg_enabled = 0
-  let g:go_fmt_command = "goimports"
-" }
-
 " { vim-indent-guides
   let g:indent_guides_auto_colors = 0
   let g:indent_guides_guide_size = 1
@@ -249,6 +234,5 @@ Plugin 'VundleVim/Vundle.vim'
     nnoremap <silent> <M-k> :TmuxNavigateRight<cr>
 " }
 
-" { Finishing up
-  setlocal softtabstop=2 shiftwidth=2 expandtab
-" }
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
