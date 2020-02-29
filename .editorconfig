@@ -10,7 +10,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 
 # file extensions with 2 indent
-[*.{js,jsx,yml,yaml,tf,hcl,json,vim,html,css}]
+[*.{md,js,jsx,yml,yaml,tf,hcl,json,vim,html,css}]
 indent_style = space
 indent_size = 2
 
