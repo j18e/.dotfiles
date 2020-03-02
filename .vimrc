@@ -131,6 +131,7 @@ Plugin 'VundleVim/Vundle.vim'
 " }
 
 " Leader shortcuts {
+  nnoremap <silent> <leader>J j:s/^\s\+//g<CR>:nohlsearch<CR>I<BS><ESC>
   nnoremap <leader>yy ggyG
   nnoremap <leader>pwd :pwd<CR>
   nnoremap <leader>j :join<CR>
