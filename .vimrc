@@ -58,12 +58,13 @@ Plugin 'VundleVim/Vundle.vim'
   Plugin 'tpope/vim-markdown' " Tabular must come before this line
   Plugin 'othree/html5.vim'
   Plugin 'mattn/emmet-vim' " for html
-  Plugin 'fatih/vim-go'
-  " Plugin 'govim/govim'
+  " Plugin 'fatih/vim-go'
+  Plugin 'govim/govim'
   Plugin 'fatih/vim-hclfmt'
   Plugin 'JamshedVesuna/vim-markdown-preview'
   Plugin 'elzr/vim-json'
   Plugin 'sudar/vim-arduino-syntax'
+  Plugin 'turbio/bracey.vim'
 
   " Install plugins if vundle just installed {
     if iCanHazVundle == 0
@@ -133,7 +134,6 @@ Plugin 'VundleVim/Vundle.vim'
 " Leader shortcuts {
   nnoremap <silent> <leader>J j:s/^\s\+//g<CR>:nohlsearch<CR>I<BS><ESC>
   nnoremap <leader>yy ggyG
-  nnoremap <leader>pwd :pwd<CR>
   nnoremap <leader>j :join<CR>
   vnoremap <leader>j :join<CR>
   nnoremap <leader>g :Rg<CR>
