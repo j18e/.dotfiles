@@ -51,6 +51,7 @@ DISABLE_AUTO_UPDATE="true"
 # Custom plugins added to ~/.oh-my-zsh/custom/plugins/
 plugins=(
     golang
+    vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh

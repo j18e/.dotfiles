@@ -5,11 +5,26 @@ alias p3='python3'
 alias p4='ping 4.2.2.2'
 alias rmrf='rm -rf'
 alias v='vim'
+alias r='ranger'
+alias psg='ps -ef | grep -v grep | grep'
+
+function pwgen() {
+    openssl rand -base64 48 | tr -d '+/=' | head -c $1
+}
 
 function sudoinstall() {
     binary="$1"
     dest="/usr/local/bin"
     sudo install -o root -g wheel -m 4755 $binary $dest
+}
+
+function go_test() {
+  go test $* |\
+      sed ''/PASS/s//$(printf "\033[32mPASS\033[0m")/'' |\
+      sed ''/SKIP/s//$(printf "\033[34mSKIP\033[0m")/'' |\
+      sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'' |\
+      sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'' |\
+      GREP_COLOR="01;33" egrep --color=always '\s*[a-zA-Z0-9\-_.]+[:][0-9]+[:]|^'
 }
 
 alias f='findfiles $1'
@@ -26,6 +41,9 @@ alias -g T='| tail'
 alias -g L='| less'
 alias -g JQ='| jq'
 
+# go
+alias gor='go run ${1:-.}'
+
 # git
 alias g='git'
 alias ga.='git add .'
@@ -41,6 +59,18 @@ alias gp='git push'
 alias gpl='git pull'
 alias grb='git rebase'
 alias gs='git status'
+alias gpr='git push -u origin $(git branch --show-current)'
+alias gca='git commit --amend --no-edit'
+function ghpr() {
+    local branch=$(git rev-parse --abbrev-ref HEAD)
+    https://github.schibsted.io/finn-io/terranova/pull/new/INFRA-3486-switch-promadin-dns
+}
+function gclose() {
+    local branch=$(git rev-parse --abbrev-ref HEAD)
+    git checkout master
+    git pull
+    git branch --delete ${branch}
+}
 
 # tmux
 alias tm='tmux'
@@ -49,11 +79,22 @@ alias tmls='tmux ls'
 
 # kubernetes
 alias k='kubectl'
+alias kx='kubectl --context'
 alias kdev='kubectl --context dev'
 alias kstg='kubectl --context staging'
 alias kprd='kubectl --context prod'
 alias ktx='kubectl config get-contexts'
 alias -g J='-o json'
 alias -g Y='-o yaml'
+alias -g BAS='run -it --rm --image=byrnedo/alpine-curl:0.1.8 tmp-bastion --command sh'
 alias kgp='kubectl get pods'
 alias kg='kubectl get'
+
+function parse_k8s_secret() {
+    cat | jq '.data' |\
+        jq -r 'keys[] as $k | "\($k) \(.[$k])"' |\
+        while read key value; do
+            echo "$key: $(base64 -D <<< $value)"
+        done
+}
+alias -g SEC='-o json | parse_k8s_secret'
