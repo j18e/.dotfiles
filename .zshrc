@@ -66,6 +66,10 @@ export LC_ALL="en_US.UTF-8"
 export PATH="/usr/local/sbin:$PATH" # homebrew's sbin
 export PATH="$PATH:$HOME/.bin"
 
+if ! [[ -f "/usr/local/bin/jsc" ]]; then
+    ln -s /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc /usr/local/bin
+fi
+
 # golang
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
