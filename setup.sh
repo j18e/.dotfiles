@@ -17,17 +17,21 @@ config_repos=(
 homebrew_packages=(
     bash
     coreutils
+    docker-compose
     fzf
     git
+    google-cloud-sdk
     htop
     jq
+    kubectl
     kubernetes-helm
-    macvim
     reattach-to-user-namespace
     ripgrep
+    terraform@0.13
     tig
     tmux
     tree
+    vim
     wget
     zsh
     zsh-completions
@@ -35,10 +39,12 @@ homebrew_packages=(
 )
 
 cask_packages=(
-    docker
     iterm2
+    firefox
+    slack
     karabiner-elements
     spectacle
+    docker
 )
 
 links=(
@@ -76,6 +82,9 @@ else
     echo "karabiner not found under $PWD. Strange..."
 fi
 popd
+
+# set up fzf once it's been installed by homebrew
+$(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
 
 # link files to home directory
 pushd $HOME
