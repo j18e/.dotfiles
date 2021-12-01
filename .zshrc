@@ -66,9 +66,7 @@ export LC_ALL="en_US.UTF-8"
 export PATH="/usr/local/sbin:$PATH" # homebrew's sbin
 export PATH="$PATH:$HOME/.bin"
 
-if ! [[ -f "/usr/local/bin/jsc" ]]; then
-    ln -s /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc /usr/local/bin
-fi
+[[ -L "/usr/local/bin/jsc" ]] || ln -s /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc /usr/local/bin
 
 # golang
 export GOPATH=$HOME/go
@@ -84,17 +82,10 @@ source <(helm completion zsh)
 # kubectl
 source <(kubectl completion zsh)
 
-OPTIONAL_PATHS=(
-    ~/.env
-    ~/.rvm/bin
-    /opt/finnbuild/latest/bin
-    /usr/local/opt/openjdk/bin
-)
-for path in $OPTIONAL_PATHS; do
-    if [[ -d $path ]]; then
-        export PATH=$path:$PATH
-    fi
-done
+[[ -d "~/.env" ]] && export PATH="~/.env:$PATH"
+[[ -d "~/.rvm/bin" ]] && export PATH="~/.rvm/bin:$PATH"
+[[ -d "/opt/finnbuild/latest/bin" ]] && export PATH="/opt/finnbuild/latest/bin:$PATH"
+[[ -d "/usr/local/opt/openjdk/bin" ]] && export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # python
 [ -f ~/.pythonrc ] && export PYTHONSTARTUP=$HOME/.pythonrc
