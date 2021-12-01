@@ -25,17 +25,16 @@ Plugin 'VundleVim/Vundle.vim'
 " }
 
 " User Plugins {
-  Plugin 'airblade/vim-gitgutter'
-  Plugin 'cespare/vim-toml'
+  " Plugin 'airblade/vim-gitgutter'
   Plugin 'chriskempson/base16-vim'
   Plugin 'christoomey/vim-tmux-navigator'
-  Plugin 'dkarter/bullets.vim'
-  Plugin 'editorconfig/editorconfig-vim'
+  Plugin 'nathanaelkane/vim-indent-guides'
   Plugin 'francoiscabrol/ranger.vim'
   Plugin 'godlygeek/tabular'
-  Plugin 'jremmen/vim-ripgrep'
-  Plugin 'mtth/scratch.vim'
-  Plugin 'nathanaelkane/vim-indent-guides'
+
+  Plugin 'dkarter/bullets.vim'
+  Plugin 'editorconfig/editorconfig-vim'
+
   Plugin 'nvie/vim-flake8'
   Plugin 'scrooloose/syntastic'
   Plugin 'tpope/vim-abolish'
@@ -45,24 +44,27 @@ Plugin 'VundleVim/Vundle.vim'
   Plugin 'tpope/vim-surround.git'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
-  Plugin 'vim-scripts/vim-auto-save'
 
   set rtp+=/usr/local/opt/fzf
   Plugin 'junegunn/fzf.vim'
 
 " Filetype specific plugins
+  Plugin 'govim/govim'
+  " Plugin 'fatih/vim-go'
+  " Plugin 'buoto/gotests-vim'
+
+  Plugin 'rust-lang/rust.vim'
+
+  Plugin 'cespare/vim-toml'
   Plugin 'sirtaj/vim-openscad'
   Plugin 'Valloric/python-indent'
   Plugin 'chase/vim-ansible-yaml'
   Plugin 'hashivim/vim-terraform.git'
   Plugin 'tpope/vim-markdown' " Tabular must come before this line
   Plugin 'othree/html5.vim'
-  Plugin 'mattn/emmet-vim' " for html
-  " Plugin 'fatih/vim-go'
-  Plugin 'govim/govim'
+  Plugin 'mattn/emmet-vim'
   Plugin 'fatih/vim-hclfmt'
   Plugin 'JamshedVesuna/vim-markdown-preview'
-  Plugin 'elzr/vim-json'
   Plugin 'sudar/vim-arduino-syntax'
   Plugin 'turbio/bracey.vim'
 
@@ -88,12 +90,15 @@ Plugin 'VundleVim/Vundle.vim'
   colorscheme base16-oceanicnext
 " }
 
+let g:ranger_command_override = "/Users/jamie.wiebe/repos/j18e/goranger/goranger"
+
 " { Syntax
   let g:is_bash = 1
   au BufNewFile,BufRead Jenkinsfile setf groovy
 " }
 
 " Basics {
+  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
   set mouse=a
   set ttymouse=sgr
   let loaded_netrwPlugin = 1
@@ -101,8 +106,8 @@ Plugin 'VundleVim/Vundle.vim'
   map <C-n> :Ranger<CR>
   noremap <C-p> :FZF<CR>
   let g:ranger_replace_netrw = 1
-  noremap <C-j> 40j
-  noremap <C-k> 40k
+  " noremap <C-j> 40j
+  " noremap <C-k> 40k
   noremap H ^
   noremap J 10j
   noremap K 10k
@@ -171,9 +176,12 @@ Plugin 'VundleVim/Vundle.vim'
 " }
 
 " filetypes {
-  au BufRead,BufNewFile Dockerfile* set filetype=dockerfile
-  au BufNewFile,BufRead *.tf,*.hcl
-    \ set filetype=terraform
+  au BufNewFile,BufRead *.slide set filetype=markdown
+  au BufNewFile,BufRead Dockerfile* set filetype=dockerfile
+  au BufNewFile,BufRead *.tf,*.hcl set filetype=terraform
+  au BufNewFile,BufRead *.pp set filetype=config
+  au BufNewFile,BufRead *.gohtml set filetype=html
+  autocmd BufNewFile main.go 0r ~/repos/tpl.go
 " }
 
 " Splits, buffers {
