@@ -8,6 +8,11 @@ alias v='vim'
 alias r='ranger'
 alias psg='ps -ef | grep -v grep | grep'
 
+function dnsgrep () {
+    local dir=$HOME/repos/puppetroot/puppet/automod/meatpages/files/dnszones
+    rg $1 --no-ignore --no-heading --no-line-number --no-filename $dir
+}
+
 function pwgen() {
     openssl rand -base64 48 | tr -d '+/=' | head -c $1
 }
@@ -40,9 +45,23 @@ alias -g H='| head'
 alias -g T='| tail'
 alias -g L='| less'
 alias -g JQ='| jq'
+alias -g LC='| wc -l'
+alias -g VIM='| vim -'
 
 # go
-alias gor='go run ${1:-.}'
+alias gor='go run'
+alias gor.='go run .'
+
+# grep
+alias rgi='rg -i'
+alias rgl='rg -l'
+alias rgil='rg -il'
+function vimrg() {
+    vim $(rg -il $@)
+}
+
+# docker
+alias dps='docker ps'
 
 # git
 alias g='git'
@@ -61,10 +80,6 @@ alias grb='git rebase'
 alias gs='git status'
 alias gpr='git push -u origin $(git branch --show-current)'
 alias gca='git commit --amend --no-edit'
-function ghpr() {
-    local branch=$(git rev-parse --abbrev-ref HEAD)
-    https://github.schibsted.io/finn-io/terranova/pull/new/INFRA-3486-switch-promadin-dns
-}
 function gclose() {
     local branch=$(git rev-parse --abbrev-ref HEAD)
     git checkout master
@@ -78,17 +93,23 @@ alias tma='tmux attach-session -t $1'
 alias tmls='tmux ls'
 
 # kubernetes
-alias k='kubectl'
-alias kx='kubectl --context'
-alias kdev='kubectl --context dev'
-alias kstg='kubectl --context staging'
-alias kprd='kubectl --context prod'
+# alias kx='kubectl --context'
 alias ktx='kubectl config get-contexts'
 alias -g J='-o json'
 alias -g Y='-o yaml'
 alias -g BAS='run -it --rm --image=byrnedo/alpine-curl:0.1.8 tmp-bastion --command sh'
-alias kgp='kubectl get pods'
-alias kg='kubectl get'
+
+function kx() {
+    local context=$1
+    shift 1
+
+    if [[ $1 == debug ]]; then
+        kubectl --context $context exec -it $(kubectl --context $context get pod -l app=debug -o name | head -1) -- bash
+        return
+    fi
+    kubectl --context $context $@
+
+}
 
 function parse_k8s_secret() {
     cat | jq '.data' |\
@@ -98,3 +119,17 @@ function parse_k8s_secret() {
         done
 }
 alias -g SEC='-o json | parse_k8s_secret'
+
+function encrypt_upload() {
+    local input_file=$1
+    local output_file=${input_file}.age
+    local age_public_key="age17gnw5y9tx8spgugtfxycc47g2katw023mt3434v7n0qg70c9gpeqln3ymn"
+    local b2_bucket=j18e-misc
+    set -e
+    age -r ${age_public_key} ${input_file} > /tmp/${output_file}
+    rclone copy /tmp/${output_file} b2:j18e-misc
+    rm -f /tmp/${output_file}
+    set +e
+}
+
+alias pm=podman

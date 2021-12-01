@@ -84,8 +84,24 @@ source <(helm completion zsh)
 # kubectl
 source <(kubectl completion zsh)
 
-# non dotfiles variables
-[ -f ~/.env ] && source ~/.env
+OPTIONAL_PATHS=(
+    ~/.env
+    ~/.rvm/bin
+    /opt/finnbuild/latest/bin
+    /usr/local/opt/openjdk/bin
+)
+for path in $OPTIONAL_PATHS; do
+    if [[ -d $path ]]; then
+        export PATH=$path:$PATH
+    fi
+done
+
+# python
+[ -f ~/.pythonrc ] && export PYTHONSTARTUP=$HOME/.pythonrc
+
+# artifactory
+[ -f ~/.artifactory-user ] && export ARTIFACTORY_USER=$(cat ~/.artifactory-user)
+[ -f ~/.artifactory-apikey ] && export ARTIFACTORY_PWD=$(cat ~/.artifactory-apikey)
 
 # prompt
 which shell-prompt >> /dev/null || go install github.com/j18e/shell-prompt
@@ -94,5 +110,17 @@ PROMPT='$(shell-prompt -exit-code $? -zsh)'
 # cli syntax highlighting - must be at end of file
 source $HOME/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+export CLOUDSDK_PYTHON="/usr/local/opt/python@3.8/libexec/bin/python"
+source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+
+export PATH="/usr/local/opt/terraform@0.13/bin:$PATH"
+
+export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
+
+# rust
+source $HOME/.cargo/env
+
+# pyenv
+eval "$(pyenv init -)"
+export PATH="$HOME/.pyenv/shims:$PATH"
