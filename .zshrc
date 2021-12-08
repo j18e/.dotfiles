@@ -110,7 +110,7 @@ export PATH="/usr/local/opt/terraform@0.13/bin:$PATH"
 export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
 
 # rust
-source $HOME/.cargo/env
+[[ -f "~/.cargo/env" ]] && source ~/.cargo/env
 
 # pyenv
 eval "$(pyenv init -)"
