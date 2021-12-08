@@ -90,7 +90,7 @@ Plugin 'VundleVim/Vundle.vim'
   colorscheme base16-oceanicnext
 " }
 
-let g:ranger_command_override = "/Users/jamie.wiebe/repos/j18e/goranger/goranger"
+let g:ranger_command_override = "$HOME/repos/j18e/goranger/goranger"
 
 " { Syntax
   let g:is_bash = 1
