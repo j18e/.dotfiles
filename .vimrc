@@ -29,7 +29,6 @@ Plugin 'VundleVim/Vundle.vim'
   Plugin 'chriskempson/base16-vim'
   Plugin 'christoomey/vim-tmux-navigator'
   Plugin 'nathanaelkane/vim-indent-guides'
-  Plugin 'francoiscabrol/ranger.vim'
   Plugin 'godlygeek/tabular'
 
   Plugin 'dkarter/bullets.vim'
@@ -90,11 +89,31 @@ Plugin 'VundleVim/Vundle.vim'
   colorscheme base16-oceanicnext
 " }
 
-let g:ranger_command_override = "$HOME/repos/j18e/goranger/goranger"
-
 " { Syntax
   let g:is_bash = 1
   au BufNewFile,BufRead Jenkinsfile setf groovy
+" }
+
+" { LF
+function! LF()
+    let temp = tempname()
+    exec 'silent !lf -selection-path=' . shellescape(temp) . expand(' %')
+    if !filereadable(temp)
+        redraw!
+        return
+    endif
+    let names = readfile(temp)
+    if empty(names)
+        redraw!
+        return
+    endif
+    exec 'edit ' . fnameescape(names[0])
+    for name in names[1:]
+        exec 'argadd ' . fnameescape(name)
+    endfor
+    redraw!
+endfunction
+command! -bar LF call LF()
 " }
 
 " Basics {
@@ -103,11 +122,8 @@ let g:ranger_command_override = "$HOME/repos/j18e/goranger/goranger"
   set ttymouse=sgr
   let loaded_netrwPlugin = 1
   let mapleader="\<space>"
-  map <C-n> :Ranger<CR>
+  map <C-n> :LF<CR>
   noremap <C-p> :FZF<CR>
-  let g:ranger_replace_netrw = 1
-  " noremap <C-j> 40j
-  " noremap <C-k> 40k
   noremap H ^
   noremap J 10j
   noremap K 10k
@@ -141,7 +157,7 @@ let g:ranger_command_override = "$HOME/repos/j18e/goranger/goranger"
   nnoremap <leader>yy ggyG
   nnoremap <leader>j :join<CR>
   vnoremap <leader>j :join<CR>
-  nnoremap <leader>g :Rg<CR>
+  nnoremap <leader>rg :Rg<CR>
   noremap <leader>ft :set filetype=
   noremap <leader>wr :set wrap!<CR>
   noremap <leader>ws :%s/\s\+$//g<CR>
@@ -181,7 +197,9 @@ let g:ranger_command_override = "$HOME/repos/j18e/goranger/goranger"
   au BufNewFile,BufRead *.tf,*.hcl set filetype=terraform
   au BufNewFile,BufRead *.pp set filetype=config
   au BufNewFile,BufRead *.gohtml set filetype=html
-  autocmd BufNewFile main.go 0r ~/repos/tpl.go
+  au BufNewFile,BufRead *.kt set filetype=java
+  autocmd BufNewFile main.go 0r ~/.dotfiles/tpl/tpl.go
+  autocmd BufNewFile *_test.go 0r ~/.dotfiles/tpl/tpl_test.go
 " }
 
 " Splits, buffers {
