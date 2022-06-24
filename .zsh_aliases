@@ -40,6 +40,7 @@ alias fd='findfiles -dirs-only $1'
 # alias fd='find . -type directory -name $1'
 
 alias -g G='| rg'
+alias -g GI='| rg -i'
 alias -g L='| less'
 alias -g H='| head'
 alias -g T='| tail'
@@ -51,6 +52,12 @@ alias -g VIM='| vim -'
 # go
 alias gor='go run'
 alias gor.='go run .'
+
+# rust
+alias rsrun='rustc -o compiled *.rs && ./compiled'
+alias cg=cargo
+alias cgr='cargo run'
+alias cgt='cargo test'
 
 # grep
 alias rgi='rg -i'
@@ -93,23 +100,12 @@ alias tma='tmux attach-session -t $1'
 alias tmls='tmux ls'
 
 # kubernetes
-# alias kx='kubectl --context'
+alias k='kubectl'
+alias kx='kubectl --context'
 alias ktx='kubectl config get-contexts'
 alias -g J='-o json'
 alias -g Y='-o yaml'
 alias -g BAS='run -it --rm --image=byrnedo/alpine-curl:0.1.8 tmp-bastion --command sh'
-
-function kx() {
-    local context=$1
-    shift 1
-
-    if [[ $1 == debug ]]; then
-        kubectl --context $context exec -it $(kubectl --context $context get pod -l app=debug -o name | head -1) -- bash
-        return
-    fi
-    kubectl --context $context $@
-
-}
 
 function parse_k8s_secret() {
     cat | jq '.data' |\
