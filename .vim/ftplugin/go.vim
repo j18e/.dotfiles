@@ -16,6 +16,8 @@ nnoremap <leader>e oif err != nil {<CR>return err<CR>}<ESC>
 nnoremap <leader>n :cnext<CR>
 nnoremap <leader>p :cprevious<CR>
 
+nnoremap <leader>gr :GOVIMRename<Space>
+
 call govim#config#Set("Gofumpt", 1)
 
 set noexpandtab
