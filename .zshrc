@@ -74,16 +74,16 @@ export PATH="$PATH:$GOPATH/bin"
 
 # helm
 export HELM_HOME=$HOME/.helm
-source <(helm completion zsh)
 
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # kubectl
-source <(kubectl completion zsh)
+[[ -f ~/.config/kubectl-zsh-completion ]] || kubectl completion zsh > ~/.config/kubectl-zsh-completion
+source ~/.config/kubectl-zsh-completion
 
-[[ -d "~/.env" ]] && export PATH="~/.env:$PATH"
-[[ -d "~/.rvm/bin" ]] && export PATH="~/.rvm/bin:$PATH"
+[[ -f "$HOME/.env" ]] && source $HOME/.env
+[[ -d "$HOME/.rvm/bin" ]] && export PATH="$HOME/.rvm/bin:$PATH"
 [[ -d "/opt/finnbuild/latest/bin" ]] && export PATH="/opt/finnbuild/latest/bin:$PATH"
 [[ -d "/usr/local/opt/openjdk/bin" ]] && export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
@@ -104,10 +104,6 @@ source $HOME/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export CLOUDSDK_PYTHON="/usr/local/opt/python@3.8/libexec/bin/python"
 source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
-
-export PATH="/usr/local/opt/terraform@0.13/bin:$PATH"
-
-export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
 
 # rust
 [[ -f "~/.cargo/env" ]] && source ~/.cargo/env
