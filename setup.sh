@@ -3,8 +3,10 @@
 pushd $(dirname $0)
 DOTFILES="$PWD"
 
-if [[ "$PWD" != "$HOME/.dotfiles" ]]; then
-    echo "ERROR - must be run from $HOME/.dotfiles"
+CONFIG="$HOME/.config"
+
+if [[ "$DOTFILES" != "$HOME/.dotfiles" ]]; then
+    echo "ERROR - must be run from $DOTFILES"
     exit 1
 fi
 
@@ -17,7 +19,6 @@ config_repos=(
 homebrew_packages=(
     bash
     coreutils
-    docker-compose
     fzf
     git
     google-cloud-sdk
@@ -27,7 +28,7 @@ homebrew_packages=(
     kubernetes-helm
     reattach-to-user-namespace
     ripgrep
-    terraform@0.13
+    terraform
     tig
     tmux
     tree
@@ -35,7 +36,6 @@ homebrew_packages=(
     wget
     zsh
     zsh-completions
-    zsh-syntax-highlighting
 )
 
 cask_packages=(
@@ -44,7 +44,6 @@ cask_packages=(
     slack
     karabiner-elements
     spectacle
-    docker
 )
 
 links=(
@@ -61,7 +60,7 @@ homebrewurl="https://raw.githubusercontent.com/Homebrew/install/master/install"
 which brew >> /dev/null || /usr/bin/ruby -e "$(curl -fsSL $homebrewurl)"
 
 # install gui apps with homebrew
-brew cask install ${cask_packages[@]}
+brew install --cask ${cask_packages[@]}
 
 # install homebrew packages
 brew install ${homebrew_packages[@]}
@@ -70,8 +69,8 @@ brew install ${homebrew_packages[@]}
 ohmyzshurl="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
 [[ -d "$HOME/.oh-my-zsh" ]] || sh -c "$(curl -fsSL $ohmyzshurl)"
 
-mkdir -p $HOME/.config
-pushd $HOME/.config
+mkdir -p $CONFIG
+pushd $CONFIG
 for url in ${config_repos[@]}; do
     git clone $url || true
 done
@@ -79,7 +78,7 @@ if [[ -d karabiner ]]; then
     echo "updating karabiner.json with the copy from dotfiles"
     cp $DOTFILES/karabiner.json karabiner/
 else
-    echo "karabiner not found under $PWD. Strange..."
+    echo "karabiner not found under $CONFIG. Strange..."
 fi
 popd
 
@@ -87,10 +86,8 @@ popd
 $(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
 
 # link files to home directory
-pushd $HOME
 for link in ${links[@]}; do
-    [[ -e $link ]] || ln -s .dotfiles/$link
+    [[ -e $link ]] || ln -s $link $HOME
 done
-popd
 
 popd

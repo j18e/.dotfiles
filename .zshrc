@@ -66,8 +66,6 @@ export LC_ALL="en_US.UTF-8"
 export PATH="/usr/local/sbin:$PATH" # homebrew's sbin
 export PATH="$PATH:$HOME/.bin"
 
-[[ -L "/usr/local/bin/jsc" ]] || ln -s /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc /usr/local/bin
-
 # golang
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
@@ -98,16 +96,12 @@ source ~/.config/kubectl-zsh-completion
 which shell-prompt >> /dev/null || go install github.com/j18e/shell-prompt
 PROMPT='$(shell-prompt -exit-code $? -zsh)'
 
-# cli syntax highlighting - must be at end of file
-source $HOME/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-export CLOUDSDK_PYTHON="/usr/local/opt/python@3.8/libexec/bin/python"
-source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
-
 # rust
 [[ -f "~/.cargo/env" ]] && source ~/.cargo/env
 
 # pyenv
 eval "$(pyenv init -)"
 export PATH="$HOME/.pyenv/shims:$PATH"
+
+# cli syntax highlighting - must be at end of file
+source $HOME/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
