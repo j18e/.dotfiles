@@ -7,15 +7,11 @@
   filetype off
 
   " Install Vundle if not present {
-    let iCanHazVundle=1
-    let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
-    if !filereadable(vundle_readme)
+    if !filereadable(expand('~/.vim/bundle/Vundle.vim/README.md'))
       echo 'Installing Vundle...'
       echo ''
       silent !mkdir -p ~/.vim/bundle
       silent !git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim
-      let iCanHazVundle=0
-      echo $iCanHazVundle
     endif
   " }
 
@@ -25,7 +21,7 @@ Plugin 'VundleVim/Vundle.vim'
 " }
 
 " User Plugins {
-  " Plugin 'airblade/vim-gitgutter'
+  Plugin 'airblade/vim-gitgutter'
   Plugin 'chriskempson/base16-vim'
   Plugin 'christoomey/vim-tmux-navigator'
   Plugin 'nathanaelkane/vim-indent-guides'
@@ -35,7 +31,6 @@ Plugin 'VundleVim/Vundle.vim'
   Plugin 'editorconfig/editorconfig-vim'
 
   Plugin 'nvie/vim-flake8'
-  Plugin 'scrooloose/syntastic'
   Plugin 'tpope/vim-abolish'
   Plugin 'tpope/vim-commentary'
   Plugin 'tpope/vim-fugitive'
@@ -43,16 +38,15 @@ Plugin 'VundleVim/Vundle.vim'
   Plugin 'tpope/vim-surround.git'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
+  Plugin 'dense-analysis/ale'
+  Plugin 'easymotion/vim-easymotion'
 
-  set rtp+=/usr/local/opt/fzf
+  " set rtp+=/usr/local/opt/fzf
   Plugin 'junegunn/fzf.vim'
 
 " Filetype specific plugins
-  Plugin 'govim/govim'
-  " Plugin 'fatih/vim-go'
-  " Plugin 'buoto/gotests-vim'
-
-  Plugin 'rust-lang/rust.vim'
+  " Plugin 'govim/govim'
+  " Plugin 'rust-lang/rust.vim'
 
   Plugin 'cespare/vim-toml'
   Plugin 'sirtaj/vim-openscad'
@@ -66,15 +60,6 @@ Plugin 'VundleVim/Vundle.vim'
   Plugin 'JamshedVesuna/vim-markdown-preview'
   Plugin 'sudar/vim-arduino-syntax'
   Plugin 'turbio/bracey.vim'
-
-  " Install plugins if vundle just installed {
-    if iCanHazVundle == 0
-      echo 'Installing Plugins, please ignore key map error messages'
-      echo ''
-      :PluginInstall
-    endif
-  " }
-
 " }
 
 " Vundle end, plugins must come before this {
@@ -89,29 +74,24 @@ Plugin 'VundleVim/Vundle.vim'
   colorscheme base16-oceanicnext
 " }
 
-" { Syntax
-  let g:is_bash = 1
-  au BufNewFile,BufRead Jenkinsfile setf groovy
-" }
-
 " { LF
 function! LF()
-    let temp = tempname()
-    exec 'silent !lf -selection-path=' . shellescape(temp) . expand(' %')
-    if !filereadable(temp)
-        redraw!
-        return
-    endif
-    let names = readfile(temp)
-    if empty(names)
-        redraw!
-        return
-    endif
-    exec 'edit ' . fnameescape(names[0])
-    for name in names[1:]
-        exec 'argadd ' . fnameescape(name)
-    endfor
+  let temp = tempname()
+  exec 'silent !lf -selection-path=' . shellescape(temp) . expand(' %')
+  if !filereadable(temp)
     redraw!
+    return
+  endif
+  let names = readfile(temp)
+  if empty(names)
+    redraw!
+    return
+  endif
+  exec 'edit ' . fnameescape(names[0])
+  for name in names[1:]
+    exec 'argadd ' . fnameescape(name)
+  endfor
+  redraw!
 endfunction
 command! -bar LF call LF()
 " }
@@ -150,6 +130,26 @@ command! -bar LF call LF()
   " Disable bells
   set noeb vb t_vb=
   au GUIEnter * set vb t_vb= set updatetime=250
+" }
+
+" ALE {
+  set omnifunc=ale#completion#OmniFunc
+  let g:ale_completion_enabled = 1
+  let g:ale_completion_autoimport = 1
+  let g:airline#extensions#ale#enabled = 1
+  let g:ale_fix_on_save = 1
+  let g:ale_set_balloons = 1
+  nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+  nmap <silent> <C-j> <Plug>(ale_next_wrap)
+  nmap <silent> <C-]> :ALEGoToDefinition<CR>
+  let g:ale_set_highlights = 0
+	nnoremap <leader>ar :ALERename<CR><C-w>
+" }
+
+" Easymotion {
+  let g:EasyMotion_do_mapping = 0 " Disable default mappings
+  map t <Plug>(easymotion-overwin-f2)
+  let g:EasyMotion_smartcase = 1 " type `l` and match `l`&`L`
 " }
 
 " Leader shortcuts {
@@ -198,8 +198,13 @@ command! -bar LF call LF()
   au BufNewFile,BufRead *.pp set filetype=config
   au BufNewFile,BufRead *.gohtml set filetype=html
   au BufNewFile,BufRead *.kt set filetype=java
-  autocmd BufNewFile main.go 0r ~/.dotfiles/tpl/tpl.go
-  autocmd BufNewFile *_test.go 0r ~/.dotfiles/tpl/tpl_test.go
+  au BufNewFile,BufRead Jenkinsfile setf groovy
+
+  au BufNewFile main.go 0r ~/.dotfiles/tpl/tpl.go
+  au BufNewFile *_test.go 0r ~/.dotfiles/tpl/tpl_test.go
+
+  let g:user_emmet_install_global = 0
+  autocmd FileType html,css,qtpl EmmetInstall
 " }
 
 " Splits, buffers {
@@ -260,6 +265,3 @@ command! -bar LF call LF()
     nnoremap <silent> <M-j> :TmuxNavigateUp<cr>
     nnoremap <silent> <M-k> :TmuxNavigateRight<cr>
 " }
-
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
