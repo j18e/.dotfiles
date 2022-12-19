@@ -52,6 +52,7 @@ alias -g VIM='| vim -'
 # go
 alias gor='go run'
 alias gor.='go run .'
+alias gogen='go generate'
 
 # rust
 alias rsrun='rustc -o compiled *.rs && ./compiled'
@@ -69,6 +70,7 @@ function vimrg() {
 
 # docker
 alias dps='docker ps'
+alias dkamd='docker --platform=amd64'
 
 # git
 alias g='git'
@@ -87,9 +89,14 @@ alias grb='git rebase'
 alias gs='git status'
 alias gpr='git push -u origin $(git branch --show-current)'
 alias gca='git commit --amend --no-edit'
+
 function gclose() {
+    local main_branch=master
+    if git --no-pager branch | grep -q main; then
+        main_branch=main
+    fi
     local branch=$(git rev-parse --abbrev-ref HEAD)
-    git checkout master
+    git checkout ${main_branch}
     git pull
     git branch --delete ${branch}
 }

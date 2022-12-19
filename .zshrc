@@ -70,8 +70,12 @@ export PATH="$PATH:$HOME/.bin"
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
 
+# rust
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # helm
 export HELM_HOME=$HOME/.helm
+export PATH="/opt/homebrew/opt/helm@2/bin:$PATH"
 
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
