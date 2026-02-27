@@ -132,6 +132,14 @@ command! -bar LF call LF()
   au GUIEnter * set vb t_vb= set updatetime=250
 " }
 
+" Macros {
+  " d should join a yaml dict into one line
+  let @d = 'nnk$A,ÂÃ½aAÂkbÂÃ½aVnk:joinf:la{ÂÃ½aAÂkb}ÂÃ½a'
+
+  " l should join a yaml list into one line
+  let @l = 'njnk$A,ýankAkb]ýaNjnkwxa[ýaNVnk:joinýa'
+" }
+
 " ALE {
   set omnifunc=ale#completion#OmniFunc
   let g:ale_completion_enabled = 1
@@ -148,7 +156,7 @@ command! -bar LF call LF()
 
 " Easymotion {
   let g:EasyMotion_do_mapping = 0 " Disable default mappings
-  map t <Plug>(easymotion-overwin-f2)
+  map <Tab> <Plug>(easymotion-overwin-f2)
   let g:EasyMotion_smartcase = 1 " type `l` and match `l`&`L`
 " }
 
@@ -179,6 +187,9 @@ command! -bar LF call LF()
   nnoremap <leader>vc :Gcommit -m '
   nnoremap <leader>vp :Gpush<CR>
   nnoremap <leader>vl :Gpull<CR>
+
+  " tabularize
+  vnoremap <leader>t= :Tabularize /=<CR>
 " }
 
 " Tab Characters {
@@ -199,6 +210,7 @@ command! -bar LF call LF()
   au BufNewFile,BufRead *.gohtml set filetype=html
   au BufNewFile,BufRead *.kt set filetype=java
   au BufNewFile,BufRead Jenkinsfile setf groovy
+  au BufNewFile,BufRead *.yaml.gotmpl setf yaml
 
   au BufNewFile main.go 0r ~/.dotfiles/tpl/tpl.go
   au BufNewFile *_test.go 0r ~/.dotfiles/tpl/tpl_test.go

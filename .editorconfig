@@ -15,7 +15,7 @@ indent_style = space
 indent_size = 2
 
 # file names with 2 indents
-[{Vagrantfile,.vimrc]
+[{Vagrantfile,.vimrc}]
 indent_size = 2
 
 # GO

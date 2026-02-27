@@ -54,12 +54,13 @@ plugins=(
     vi-mode
 )
 
+
 source $ZSH/oh-my-zsh.sh
 
 source $HOME/.config/base16-shell/scripts/base16-oceanicnext.sh # colorscheme
 source $HOME/.zsh_aliases
 
-export EDITOR=vim
+export EDITOR=nvim
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
@@ -68,7 +69,7 @@ export PATH="$PATH:$HOME/.bin"
 
 # golang
 export GOPATH=$HOME/go
-export PATH="$PATH:$GOPATH/bin"
+export PATH="$GOPATH/bin:$PATH"
 
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -97,8 +98,9 @@ source ~/.config/kubectl-zsh-completion
 [ -f ~/.artifactory-apikey ] && export ARTIFACTORY_PWD=$(cat ~/.artifactory-apikey)
 
 # prompt
-which shell-prompt >> /dev/null || go install github.com/j18e/shell-prompt
-PROMPT='$(shell-prompt -exit-code $? -zsh)'
+# which shell-prompt >> /dev/null || go install github.com/j18e/shell-prompt
+# PROMPT='$(shell-prompt -exit-code $? -zsh)'
+eval "$(starship init zsh)"
 
 # rust
 [[ -f "~/.cargo/env" ]] && source ~/.cargo/env
@@ -107,5 +109,16 @@ PROMPT='$(shell-prompt -exit-code $? -zsh)'
 eval "$(pyenv init -)"
 export PATH="$HOME/.pyenv/shims:$PATH"
 
+export DOCKER_DEFAULT_PLATFORM=linux/arm64
+
+# export NVM_DIR="$HOME/.nvm"
+# source $NVM_DIR/nvm.sh
+
 # cli syntax highlighting - must be at end of file
 source $HOME/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export PATH="/opt/homebrew/opt/ruby@2.7/bin:$PATH"
+
+
+fix_cursor_color() {
+  printf '\033Ptmux;\033\033]12;#C0C5CE\007\033\\'
+}

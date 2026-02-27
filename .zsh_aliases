@@ -3,41 +3,52 @@ alias cdr='cd $HOME/repos'
 alias p2='python2'
 alias p3='python3'
 alias p4='ping 4.2.2.2'
+alias p8='ping 8.8.8.8'
 alias rmrf='rm -rf'
-alias v='vim'
+alias v='nvim'
+alias vim='nvim'
+alias vi='nvim'
 alias r='ranger'
 alias psg='ps -ef | grep -v grep | grep'
+
+# directories
+alias -g .......='../../../../../..'
+alias -g ........='../../../../../../..'
+alias -g .........='../../../../../../../..'
+alias -g ..........='../../../../../../../../..'
 
 function dnsgrep () {
     local dir=$HOME/repos/puppetroot/puppet/automod/meatpages/files/dnszones
     rg $1 --no-ignore --no-heading --no-line-number --no-filename $dir
 }
 
+function tfstatedel() {
+    local bucket=$(grep 'bucket =' remotestate.tf | cut -d '"' -f2)
+	local bucket_path=$(grep 'prefix =' remotestate.tf | cut -d '"' -f2)
+    gsutil rm gs://${bucket}/${bucket_path}/default.tfstate
+}
+
 function pwgen() {
     openssl rand -base64 48 | tr -d '+/=' | head -c $1
 }
 
-function sudoinstall() {
-    binary="$1"
-    dest="/usr/local/bin"
-    sudo install -o root -g wheel -m 4755 $binary $dest
+function gcp() {
+    project=$1
+    area=$2
+    open "https://console.cloud.google.com/$area?project=$project"
 }
 
-function go_test() {
-  go test $* |\
-      sed ''/PASS/s//$(printf "\033[32mPASS\033[0m")/'' |\
-      sed ''/SKIP/s//$(printf "\033[34mSKIP\033[0m")/'' |\
-      sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'' |\
-      sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'' |\
-      GREP_COLOR="01;33" egrep --color=always '\s*[a-zA-Z0-9\-_.]+[:][0-9]+[:]|^'
+function newchart() {
+    local name=$1
+    mkdir -p ${name}/templates
+    echo "apiVersion: v2" >> ${name}/Chart.yaml
+    echo "name: ${name}" >> ${name}/Chart.yaml
+    echo "description: A Helm chart for Kubernetes" >> ${name}/Chart.yaml
+    echo "version: 0.1.0" >> ${name}/Chart.yaml
+    touch ${name}/values.yaml
 }
 
-alias f='findfiles $1'
-alias ff='findfiles -files-only $1'
-alias fd='findfiles -dirs-only $1'
-
-# alias ff='find . -type file -name $1'
-# alias fd='find . -type directory -name $1'
+alias tf=terraform
 
 alias -g G='| rg'
 alias -g GI='| rg -i'
@@ -47,7 +58,9 @@ alias -g T='| tail'
 alias -g L='| less'
 alias -g JQ='| jq'
 alias -g LC='| wc -l'
-alias -g VIM='| vim -'
+alias -g VIM='| nvim -R -c "set ft=yaml" -'
+alias -g SU='| sort | uniq'
+alias -g CP='| pbcopy'
 
 # go
 alias gor='go run'
@@ -59,13 +72,14 @@ alias rsrun='rustc -o compiled *.rs && ./compiled'
 alias cg=cargo
 alias cgr='cargo run'
 alias cgt='cargo test'
+alias cgb='cargo build'
 
 # grep
 alias rgi='rg -i'
 alias rgl='rg -l'
 alias rgil='rg -il'
 function vimrg() {
-    vim $(rg -il $@)
+    nvim $(rg -il $@)
 }
 
 # docker
@@ -113,6 +127,9 @@ alias ktx='kubectl config get-contexts'
 alias -g J='-o json'
 alias -g Y='-o yaml'
 alias -g BAS='run -it --rm --image=byrnedo/alpine-curl:0.1.8 tmp-bastion --command sh'
+
+alias hmx='helm --kube-context'
+alias hfx='helmfile --environment'
 
 function parse_k8s_secret() {
     cat | jq '.data' |\
