@@ -79,11 +79,18 @@ export HELM_HOME=$HOME/.helm
 export PATH="/opt/homebrew/opt/helm@2/bin:$PATH"
 
 # fzf
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # kubectl
 [[ -f ~/.config/kubectl-zsh-completion ]] || kubectl completion zsh > ~/.config/kubectl-zsh-completion
 source ~/.config/kubectl-zsh-completion
+
+# helm
+[[ -f ~/.config/helm-zsh-completion ]] || helm completion zsh > ~/.config/helm-zsh-completion
+source ~/.config/helm-zsh-completion
 
 [[ -f "$HOME/.env" ]] && source $HOME/.env
 [[ -d "$HOME/.rvm/bin" ]] && export PATH="$HOME/.rvm/bin:$PATH"
@@ -105,20 +112,14 @@ eval "$(starship init zsh)"
 # rust
 [[ -f "~/.cargo/env" ]] && source ~/.cargo/env
 
-# pyenv
-eval "$(pyenv init -)"
-export PATH="$HOME/.pyenv/shims:$PATH"
-
 export DOCKER_DEFAULT_PLATFORM=linux/arm64
 
 # export NVM_DIR="$HOME/.nvm"
 # source $NVM_DIR/nvm.sh
 
-# cli syntax highlighting - must be at end of file
-source $HOME/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-export PATH="/opt/homebrew/opt/ruby@2.7/bin:$PATH"
-
-
 fix_cursor_color() {
   printf '\033Ptmux;\033\033]12;#C0C5CE\007\033\\'
 }
+
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export PATH="$HOME/.local/bin:$PATH"
